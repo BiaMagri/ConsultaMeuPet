@@ -25,6 +25,7 @@ public class VeterinarioDAO {
     private static Statement statement = null;
     private ResultSet resultSet = null;
     private ArrayList<Veterinario> vets = new ArrayList<Veterinario>();
+    private String oi;
 
     public ArrayList<Veterinario> getVets() {
         return vets;
