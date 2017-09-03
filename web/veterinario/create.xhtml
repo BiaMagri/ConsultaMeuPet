@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:body>
+
+        <ui:composition template="./../index.xhtml">
+            <ui:define name="conteudo">
+
+                <p:outputLabel value="Nome*:  "/>
+                <p:inputText id="nomeVeterinario" value="#{veterinario.nome}" 
+                             required="true" requiredMessage="Digite um nome!" />
+
+
+                <br/> <br/>
+                <p:outputLabel value="CRMV*:  "/>
+                <p:inputText id="crmv" value="#{veterinario.crmv}" 
+                             required="true" requiredMessage="Digite seu crmv!" />
+                <p:message for="crmv"/>
+                <br/> <br/>
+
+                <p:outputLabel value="Senha*:  "/>
+                <p:inputText id="senhaVeterinario" value="#{veterinario.senha}" 
+                             required="true" requiredMessage="Digite uma senha!"/>
+                <br/> <br/>
+
+                <p:commandButton value="Inserir" action="#{veterinarioDAO.add(veterinario)}"/>
+                <br></br>
+
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>
