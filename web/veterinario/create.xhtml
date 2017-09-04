@@ -18,12 +18,10 @@ and open the template in the editor.
                 <p:inputText id="nomeVeterinario" value="#{veterinario.nome}" 
                              required="true" requiredMessage="Digite um nome!" />
 
-
                 <br/> <br/>
                 <p:outputLabel value="CRMV*:  "/>
                 <p:inputText id="crmv" value="#{veterinario.crmv}" 
                              required="true" requiredMessage="Digite seu crmv!" />
-                <p:message for="crmv"/>
                 <br/> <br/>
 
                 <p:outputLabel value="Senha*:  "/>
@@ -32,8 +30,6 @@ and open the template in the editor.
                 <br/> <br/>
 
                 <p:commandButton value="Inserir" action="#{veterinarioDAO.add(veterinario)}"/>
-                <br></br>
-
             </ui:define>
         </ui:composition>
 

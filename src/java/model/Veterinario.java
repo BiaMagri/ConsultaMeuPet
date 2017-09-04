@@ -1,6 +1,8 @@
 
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 
@@ -17,6 +19,7 @@ public class Veterinario {
     private String senha;
 
     public Veterinario() {
+
     }
     
     public Veterinario(String nome, String crmv) {

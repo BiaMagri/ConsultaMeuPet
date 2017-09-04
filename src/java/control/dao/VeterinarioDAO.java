@@ -25,15 +25,8 @@ public class VeterinarioDAO {
     private static Statement statement = null;
     private ResultSet resultSet = null;
     private ArrayList<Veterinario> vets = new ArrayList<Veterinario>();
-    private String oi;
-
-    public ArrayList<Veterinario> getVets() {
-        return vets;
-    }
-
-    public void setVets(ArrayList<Veterinario> vets) {
-        this.vets = vets;
-    }
+    private String nomeLocalizado;
+    private String crmvLocalizado;
 
     public void conectar() {
         String servidor = "jdbc:mysql://127.0.0.1:3306/veterinarioschema";
@@ -49,6 +42,7 @@ public class VeterinarioDAO {
             System.out.println("Erro0: " + e.getMessage());
         }
     }
+
     public boolean isConnected() {
         if (this.connection != null) {
             return true;
@@ -65,7 +59,7 @@ public class VeterinarioDAO {
                     + "VALUES ('" + veterinario.getNome() + "', '"
                     + veterinario.getCrmv() + "', '"
                     + veterinario.getSenha() + "')";
-            
+
             this.statement.executeUpdate(query);
 
         } catch (Exception e) {
@@ -94,22 +88,41 @@ public class VeterinarioDAO {
             return false;
         }
     }
+
+    public ArrayList<Veterinario> readAll() {
+        this.conectar();
+        try {
+            String query = "SELECT nome, crmv FROM veterinario ORDER BY nome;";
+            this.resultSet = this.statement.executeQuery(query);
+            this.statement = this.connection.createStatement();
+            while (this.resultSet.next()) {
+                Veterinario veterinario = new Veterinario(this.resultSet.getString("nome"), this.resultSet.getString("crmv"));
+                vets.add(veterinario);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro1: " + e.getMessage());
+        }
+        this.desconectar();
+        return vets;
+    }
     
-    public ArrayList<Veterinario> read() {
-		
-                try {
-			String query = "SELECT nome, crmv FROM veterinario ORDER BY nome;";
-			this.resultSet = this.statement.executeQuery(query);
-			this.statement = this.connection.createStatement();
-			while(this.resultSet.next()) {
-				Veterinario veterinario = new Veterinario(this.resultSet.getString("nome"), this.resultSet.getString("crmv"));
-				vets.add(veterinario);
-			}
-		} catch(Exception e) {
-			System.out.println("Erro1: " + e.getMessage());
-		}
-		return vets;
-	}
+    public boolean find(String nome){
+    this.conectar();
+    Veterinario veterinario = null;
+        try {
+            String query = "SELECT nome, crmv FROM veterinario WHERE nome like '" + nome + "'ORDER BY crmv;";
+            this.resultSet = this.statement.executeQuery(query);
+            this.statement = this.connection.createStatement();
+            while (this.resultSet.next()) {
+                nomeLocalizado = this.resultSet.getString("nome");
+                crmvLocalizado = this.resultSet.getString("crmv");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro1: " + e.getMessage());
+        }
+        this.desconectar();
+        return isConnected();
+    }
 
     public void desconectar() {
         try {
@@ -117,6 +130,30 @@ public class VeterinarioDAO {
         } catch (Exception e) {
             System.out.println("Erro5: " + e.getMessage());
         }
+    }
+    
+    public String getNomeLocalizado() {
+        return nomeLocalizado;
+    }
+
+    public void setNomeLocalizado(String nomeLocalizado) {
+        this.nomeLocalizado = nomeLocalizado;
+    }
+
+    public String getCrmvLocalizado() {
+        return crmvLocalizado;
+    }
+
+    public void setCrmvLocalizado(String crmvLocalizado) {
+        this.crmvLocalizado = crmvLocalizado;
+    }
+
+    public ArrayList<Veterinario> getVets() {
+        return vets;
+    }
+
+    public void setVets(ArrayList<Veterinario> vets) {
+        this.vets = vets;
     }
 
 }
