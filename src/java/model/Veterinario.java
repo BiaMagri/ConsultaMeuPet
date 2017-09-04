@@ -22,9 +22,10 @@ public class Veterinario {
 
     }
     
-    public Veterinario(String nome, String crmv) {
+    public Veterinario(String nome, String crmv, String senha) {
         this.nome = nome;
         this.crmv = crmv;
+        this.senha = senha;
     }
 
     public int getId() {

@@ -15,25 +15,23 @@ and open the template in the editor.
 
         <ui:composition template="./../index.xhtml">
             <ui:define name="conteudo">
-                <h:selectOneMenu id="vet" value="#{veterinarioDAO}">
+                <h:selectOneMenu id="vet" value="#{veterinarioDAO.nomeLocalizado}">
                     <f:selectItems value="#{veterinarioDAO.readAll()}"
-                                   var="u" itemLabel="#{u.nome}" itemValue="#{u.nome}"/>  
+                                   var="u" itemLabel="#{u}" itemValue="#{u}"/>
                 </h:selectOneMenu>
                 <br/> <br/>
-                <p:commandButton value="Selecionar" actionListener="#{veterinarioDAO.find(u.nome)}"/>
-                    <br/> <br/>
-                    <p:outputLabel value="Id:  #{veterinario.id}"/>
-                    <br/> <br/>
-
-                    <p:outputLabel value="Nome:  #{veterinarioDAO.nomeLocalizado}"/>
+                <h:commandButton value="Selecionar" action="#{veterinarioDAO.find()}"/>
+                <br/> <br/>
+                <c:if test="#{veterinarioDAO.selecionado.nome!=null}">
+                    <p:outputLabel value="Nome:  #{veterinarioDAO.selecionado.nome}"/>
                     <br/> <br/>
 
-                    <p:outputLabel value="CRMV:  #{veterinarioDAO.crmvLocalizado}"/>
+                    <p:outputLabel value="CRMV:  #{veterinarioDAO.selecionado.crmv}"/>
                     <br/> <br/>
 
-                    <p:outputLabel value="Senha:  #{veterinario.senha}"/>
+                    <p:outputLabel value="Senha:  #{veterinarioDAO.selecionado.senha}"/>
                     <br/> <br/>
-
+                </c:if>
             </ui:define>
         </ui:composition>
 
