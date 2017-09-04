@@ -15,14 +15,20 @@ and open the template in the editor.
 
         <ui:composition template="./../index.xhtml">
             <ui:define name="conteudo">
-                <h:selectOneMenu id="vet" value="#{veterinarioDAO.nomeLocalizado}">
+                <p:selectOneMenu id="vet" value="#{veterinarioDAO.nomeLocalizado}">
                     <f:selectItems value="#{veterinarioDAO.readAll()}"
                                    var="u" itemLabel="#{u}" itemValue="#{u}"/>
-                </h:selectOneMenu>
+                </p:selectOneMenu>
                 <br/> <br/>
+                
                 <h:commandButton value="Selecionar" action="#{veterinarioDAO.find()}"/>
+                
                 <br/> <br/>
                 <c:if test="#{veterinarioDAO.selecionado.nome!=null}">
+
+                    <p:outputLabel value="Id:  #{veterinarioDAO.selecionado.id}"/>
+                    <br/> <br/>
+
                     <p:outputLabel value="Nome:  #{veterinarioDAO.selecionado.nome}"/>
                     <br/> <br/>
 

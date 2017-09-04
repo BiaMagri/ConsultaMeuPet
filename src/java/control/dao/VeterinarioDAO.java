@@ -77,28 +77,38 @@ public class VeterinarioDAO {
         return isConnected();
     }
 
-    public void update(Veterinario veterinario, int idAntigo) {
+    public String update() {
+        this.conectar();
+        String query = null;
         try {
-            //String query = "UPDATE pedal SET idPedal=" + veterinario.getNome()) + ", nomePedal='" + pedal.getNomePedal() + "', marcaPedal='" + pedal.getMarcaPedal() + "', Categoria_idCategoria= (SELECT idCategoria FROM categoria WHERE nomeCategoria LIKE '" + pedal.getCategoria() + "') WHERE idPedal=" + idAntigo + ";";
-            //this.statement.executeUpdate(query);
+            query = "UPDATE veterinario SET nome= '" + selecionado.getNome() 
+                    + "', crmv='" + selecionado.getCrmv() 
+                    + "', senha='" + selecionado.getSenha()
+                    + "' WHERE idVeterinario = " + selecionado.getId();
+            this.statement.executeUpdate(query);
         } catch (Exception e) {
             System.out.println("Erro2: " + e.getMessage());
         }
+        this.desconectar();
+        return query;
     }
 
-    public boolean remove(Veterinario veterinario) {
+    public void remove(Veterinario veterinario) {
+        this.conectar();
+        String query = null;
         try {
-            //String query = "DELETE FROM pedal WHERE idPedal = " + veterinario.get() + ";";
-            //this.statement.executeUpdate(query);
-            return true;
+            query = "DELETE FROM veterinario WHERE idVeterinario = " + veterinario.getId() + ";";
+            this.statement.executeUpdate(query);
         } catch (Exception e) {
             System.out.println("Erro4: " + e.getMessage());
-            return false;
         }
+        this.desconectar();
+        //return query;
     }
 
     public ArrayList<String> readAll() {
         this.conectar();
+        vets.clear();
         try {
             String query = "SELECT nome, crmv FROM veterinario ORDER BY nome;";
             this.resultSet = this.statement.executeQuery(query);
@@ -117,11 +127,11 @@ public class VeterinarioDAO {
     public Veterinario find() {
         this.conectar();
         try {
-            String query = "SELECT nome, crmv, senha FROM veterinario WHERE nome like '" + nomeLocalizado + "'ORDER BY nome;";
+            String query = "SELECT idVeterinario, nome, crmv, senha FROM veterinario WHERE nome like '" + nomeLocalizado + "'ORDER BY nome;";
             this.resultSet = this.statement.executeQuery(query);
             this.statement = this.connection.createStatement();
             while (this.resultSet.next()) {
-                selecionado = new Veterinario(this.resultSet.getString("nome"), this.resultSet.getString("crmv"), this.resultSet.getString("senha"));
+                selecionado = new Veterinario(this.resultSet.getInt("idVeterinario"), this.resultSet.getString("nome"), this.resultSet.getString("crmv"), this.resultSet.getString("senha"));
             }
         } catch (Exception e) {
             System.out.println("Erro1: " + e.getMessage());

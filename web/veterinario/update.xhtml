@@ -5,12 +5,43 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>
+
+        <ui:composition template="./../index.xhtml">
+            <ui:define name="conteudo">
+                <p:selectOneMenu id="vet" value="#{veterinarioDAO.nomeLocalizado}">
+                    <f:selectItems value="#{veterinarioDAO.readAll()}"
+                                   var="u" itemLabel="#{u}" itemValue="#{u}"/>
+                </p:selectOneMenu>
+                <br/> <br/>
+                <h:commandButton value="Selecionar" action="#{veterinarioDAO.find()}"/>
+                <br/> <br/>
+                <c:if test="#{veterinarioDAO.selecionado.nome!=null}">
+
+                    <p:outputLabel value="Nome*:  "/>
+                    <p:inputText id="nomeVeterinario"  value="#{veterinarioDAO.selecionado.nome}" 
+                                 required="true" requiredMessage="Digite seu crmv!" />
+
+                    <br/> <br/>
+                    <p:outputLabel value="CRMV*:  "/>
+                    <p:inputText id="crmv"  value="#{veterinarioDAO.selecionado.crmv}" 
+                                 required="true" requiredMessage="Digite seu crmv!" />
+                    <br/> <br/>
+
+                    <p:outputLabel value="Senha*:  "/>
+                    <p:password id="senhaVeterinario" value="#{veterinarioDAO.selecionado.senha}" 
+                                required="true" requiredMessage="Digite uma senha!"/>
+                    <br/> <br/>
+                    <h:commandButton value="#{veterinarioDAO.update()}" onclick="#{veterinarioDAO.update()}"/>
+                </c:if>
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
 </html>

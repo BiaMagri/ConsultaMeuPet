@@ -22,7 +22,8 @@ public class Veterinario {
 
     }
     
-    public Veterinario(String nome, String crmv, String senha) {
+    public Veterinario(int id, String nome, String crmv, String senha) {
+        this.id = id;
         this.nome = nome;
         this.crmv = crmv;
         this.senha = senha;
