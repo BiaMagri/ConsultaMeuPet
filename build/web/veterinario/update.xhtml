@@ -5,12 +5,46 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+
+        <ui:composition template="./../index.xhtml">
+            <ui:define name="conteudo">
+
+                <p:selectOneMenu id="vet" value="#{veterinarioBean.nomeLocalizado}">
+                    <f:selectItems value="#{veterinarioBean.listaVeterinarios()}"
+                                   var="u" itemLabel="#{u}" itemValue="#{u}"/>
+                </p:selectOneMenu>
+                <br/> <br/>
+                <h:commandButton value="Selecionar" action="#{veterinarioBean.buscar()}"/>
+                <br/> <br/>
+ 
+                    <form>
+                        <p:outputLabel value="Nome*:  "/>
+                        <p:inputText id="nomeVeterinario"  value="#{veterinarioBean.selecionado.nome}"/>
+
+                        <p:outputLabel  value="Id*:  "/>
+                        <p:inputText id="idVeterinario"  value="#{veterinarioBean.selecionado.id}"/>
+
+                        <br/> <br/>
+                        <p:outputLabel value="CRMV*:  "/>
+                        <p:inputText id="crmv"  value="#{veterinarioBean.selecionado.crmv}"/>
+                        <br/> <br/>
+
+                        <p:outputLabel value="Senha*:  "/>
+                        <p:inputText id="senhaVeterinario" value="#{veterinarioBean.selecionado.senha}"/>
+                        <br/> <br/>
+                        
+                        <h:commandButton value="Salvar" action="#{veterinarioBean.atualizar(veterinarioBean.selecionado.id)}">
+                            <f:param name="id" value="#{veterinarioBean.selecionado.id}"/>
+                        </h:commandButton>
+                    </form>
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
 </html>

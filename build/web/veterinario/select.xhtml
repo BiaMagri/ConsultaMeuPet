@@ -9,32 +9,33 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:body>
 
         <ui:composition template="./../index.xhtml">
             <ui:define name="conteudo">
-
-                <p:outputLabel value="Nome*:  "/>
-                <p:inputText id="nomeVeterinario" value="#{veterinario.nome}" 
-                             required="true" requiredMessage="Digite um nome!" />
-
+                <p:selectOneMenu id="vet" value="#{veterinarioBean.nomeLocalizado}">
+                    <f:selectItems value="#{veterinarioBean.listaVeterinarios()}"
+                                   var="u" itemLabel="#{u}" itemValue="#{u}"/>
+                </p:selectOneMenu>
                 <br/> <br/>
-                <p:outputLabel value="CRMV*:  "/>
-                <p:inputText id="crmv" value="#{veterinario.crmv}" 
-                             required="true" requiredMessage="Digite seu crmv!" />
+                <h:commandButton value="Selecionar" action="#{veterinarioBean.buscar()}"/>
                 <br/> <br/>
+                <c:if test="#{veterinarioBean.selecionado.nome!=null}">
 
-                <p:outputLabel value="Senha*:  "/>
-                <p:inputText id="senhaVeterinario" value="#{veterinario.senha}" 
-                             required="true" requiredMessage="Digite uma senha!"/>
-                <br/> <br/>
+                    <p:outputLabel value="Id:  #{veterinarioBean.selecionado.id}"/>
+                    <br/> <br/>
 
-                <p:commandButton value="inserir" action="#{veterinarioDAO.add(veterinario)}"/>
-                <br></br>
+                    <p:outputLabel value="Nome:  #{veterinarioBean.selecionado.nome}"/>
+                    <br/> <br/>
 
-                <h:outputText value="#{veterinario.nome} + #{veterinario.crmv} + #{veterinario.senha}"/>
+                    <p:outputLabel value="CRMV:  #{veterinarioBean.selecionado.crmv}"/>
+                    <br/> <br/>
 
+                    <p:outputLabel value="Senha:  #{veterinarioBean.selecionado.senha}"/>
+                    <br/> <br/>
+                </c:if>
             </ui:define>
         </ui:composition>
 

@@ -15,28 +15,28 @@ and open the template in the editor.
 
         <ui:composition template="./../index.xhtml">
             <ui:define name="conteudo">
-                <p:selectOneMenu id="vet" value="#{veterinarioDAO.nomeLocalizado}">
-                    <f:selectItems value="#{veterinarioDAO.readAll()}"
+                <p:selectOneMenu id="vet" value="#{veterinarioBean.nomeLocalizado}">
+                    <f:selectItems value="#{veterinarioBean.listaVeterinarios()}"
                                    var="u" itemLabel="#{u}" itemValue="#{u}"/>
                 </p:selectOneMenu>
                 <br/> <br/>
-                <h:commandButton value="Selecionar" action="#{veterinarioDAO.find()}"/>
+                <h:commandButton value="Selecionar" action="#{veterinarioBean.buscar()}"/>
                 <br/> <br/>
-                 <c:if test="#{veterinarioDAO.selecionado.nome!=null}">
+                <c:if test="#{veterinarioBean.selecionado.nome!=null}">
 
-                    <p:outputLabel value="Id:  #{veterinarioDAO.selecionado.id}"/>
+                    <p:outputLabel value="Id:  #{veterinarioBean.selecionado.id}"/>
                     <br/> <br/>
 
-                    <p:outputLabel value="Nome:  #{veterinarioDAO.selecionado.nome}"/>
+                    <p:outputLabel value="Nome:  #{veterinarioBean.selecionado.nome}"/>
                     <br/> <br/>
 
-                    <p:outputLabel value="CRMV:  #{veterinarioDAO.selecionado.crmv}"/>
+                    <p:outputLabel value="CRMV:  #{veterinarioBean.selecionado.crmv}"/>
                     <br/> <br/>
 
-                    <p:outputLabel value="Senha:  #{veterinarioDAO.selecionado.senha}"/>
+                    <p:outputLabel value="Senha:  #{veterinarioBean.selecionado.senha}"/>
                     <br/> <br/>
                     
-                    <h:commandButton value="Deletar" onclick="#{veterinarioDAO.remove(veterinarioDAO.selecionado)}"/>
+                    <h:commandButton value="Deletar" onclick="#{veterinarioBean.deletar()}"/>
                 </c:if>
             </ui:define>
         </ui:composition>

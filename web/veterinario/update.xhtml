@@ -9,37 +9,40 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
 
         <ui:composition template="./../index.xhtml">
             <ui:define name="conteudo">
-                <p:selectOneMenu id="vet" value="#{veterinarioDAO.nomeLocalizado}">
-                    <f:selectItems value="#{veterinarioDAO.readAll()}"
+
+                <p:selectOneMenu id="vet" value="#{veterinarioBean.nomeLocalizado}">
+                    <f:selectItems value="#{veterinarioBean.listaVeterinarios()}"
                                    var="u" itemLabel="#{u}" itemValue="#{u}"/>
                 </p:selectOneMenu>
                 <br/> <br/>
-                <h:commandButton value="Selecionar" action="#{veterinarioDAO.find()}"/>
+                <h:commandButton value="Selecionar" action="#{veterinarioBean.buscar()}"/>
                 <br/> <br/>
-                <c:if test="#{veterinarioDAO.selecionado.nome!=null}">
+ 
+                    <form>
+                        <p:outputLabel value="Nome*:  "/>
+                        <p:inputText id="nomeVeterinario"  value="#{veterinarioBean.selecionado.nome}"/>
 
-                    <p:outputLabel value="Nome*:  "/>
-                    <p:inputText id="nomeVeterinario"  value="#{veterinarioDAO.selecionado.nome}" 
-                                 required="true" requiredMessage="Digite seu crmv!" />
+                        <p:outputLabel  value="Id*:  "/>
+                        <p:inputText id="idVeterinario"  value="#{veterinarioBean.selecionado.id}"/>
 
-                    <br/> <br/>
-                    <p:outputLabel value="CRMV*:  "/>
-                    <p:inputText id="crmv"  value="#{veterinarioDAO.selecionado.crmv}" 
-                                 required="true" requiredMessage="Digite seu crmv!" />
-                    <br/> <br/>
+                        <br/> <br/>
+                        <p:outputLabel value="CRMV*:  "/>
+                        <p:inputText id="crmv"  value="#{veterinarioBean.selecionado.crmv}"/>
+                        <br/> <br/>
 
-                    <p:outputLabel value="Senha*:  "/>
-                    <p:password id="senhaVeterinario" value="#{veterinarioDAO.selecionado.senha}" 
-                                required="true" requiredMessage="Digite uma senha!"/>
-                    <br/> <br/>
-                    <h:commandButton value="#{veterinarioDAO.update()}" onclick="#{veterinarioDAO.update()}"/>
-                </c:if>
+                        <p:outputLabel value="Senha*:  "/>
+                        <p:inputText id="senhaVeterinario" value="#{veterinarioBean.selecionado.senha}"/>
+                        <br/> <br/>
+                        
+                        <h:commandButton value="Salvar" action="#{veterinarioBean.atualizar(veterinarioBean.selecionado.id)}">
+                            <f:param name="id" value="#{veterinarioBean.selecionado.id}"/>
+                        </h:commandButton>
+                    </form>
             </ui:define>
         </ui:composition>
 

@@ -18,23 +18,13 @@ import model.Veterinario;
  *
  * @author bianca
  */
-@ManagedBean
+
 public class VeterinarioDAO {
 
     private static Connection connection = null;
     private static Statement statement = null;
     private ResultSet resultSet = null;
     private ArrayList<String> vets = new ArrayList<String>();
-    private Veterinario selecionado;
-    private String nomeLocalizado;
-
-    public String getNomeLocalizado() {
-        return nomeLocalizado;
-    }
-
-    public void setNomeLocalizado(String nomeLocalizado) {
-        this.nomeLocalizado = nomeLocalizado;
-    }
 
     public void conectar() {
         String servidor = "jdbc:mysql://127.0.0.1:3306/veterinarioschema";
@@ -77,20 +67,19 @@ public class VeterinarioDAO {
         return isConnected();
     }
 
-    public String update() {
+    public boolean update(Veterinario veterinario) {
         this.conectar();
-        String query = null;
         try {
-            query = "UPDATE veterinario SET nome= '" + selecionado.getNome() 
-                    + "', crmv='" + selecionado.getCrmv() 
-                    + "', senha='" + selecionado.getSenha()
-                    + "' WHERE idVeterinario = " + selecionado.getId();
+            String query = "UPDATE veterinario SET nome= '" + veterinario.getNome() 
+                    + "', crmv='" + veterinario.getCrmv() 
+                    + "', senha='" + veterinario.getSenha()
+                    + "' WHERE idVeterinario = " + veterinario.getId();
             this.statement.executeUpdate(query);
         } catch (Exception e) {
             System.out.println("Erro2: " + e.getMessage());
         }
         this.desconectar();
-        return query;
+        return isConnected();
     }
 
     public void remove(Veterinario veterinario) {
@@ -124,20 +113,21 @@ public class VeterinarioDAO {
         return vets;
     }
 
-    public Veterinario find() {
+    public Veterinario find(String nomeLocalizado) {
         this.conectar();
+        Veterinario veterinario = null;
         try {
             String query = "SELECT idVeterinario, nome, crmv, senha FROM veterinario WHERE nome like '" + nomeLocalizado + "'ORDER BY nome;";
             this.resultSet = this.statement.executeQuery(query);
             this.statement = this.connection.createStatement();
             while (this.resultSet.next()) {
-                selecionado = new Veterinario(this.resultSet.getInt("idVeterinario"), this.resultSet.getString("nome"), this.resultSet.getString("crmv"), this.resultSet.getString("senha"));
+                veterinario = new Veterinario(this.resultSet.getInt("idVeterinario"), this.resultSet.getString("nome"), this.resultSet.getString("crmv"), this.resultSet.getString("senha"));
             }
         } catch (Exception e) {
             System.out.println("Erro1: " + e.getMessage());
         }
         this.desconectar();
-        return selecionado;
+        return veterinario;
     }
 
     public void desconectar() {
@@ -146,14 +136,6 @@ public class VeterinarioDAO {
         } catch (Exception e) {
             System.out.println("Erro5: " + e.getMessage());
         }
-    }
-
-    public Veterinario getSelecionado() {
-        return selecionado;
-    }
-
-    public void setSelecionado(Veterinario selecionado) {
-        this.selecionado = selecionado;
     }
 
     public ArrayList<String> getVets() {
